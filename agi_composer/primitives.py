@@ -16,12 +16,12 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Dict
 
 import numpy as np
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class Primitive:
     """An atomic mathematical operation."""
 
@@ -98,7 +98,7 @@ _DIV = Primitive("div", 2, _safe_div, 2.0, "/")
 _POW = Primitive("pow", 2, _safe_pow, 3.0, "^")
 
 # Organized registry for easy access
-PRIMITIVE_REGISTRY: dict[str, Primitive] = {
+PRIMITIVE_REGISTRY: Dict[str, Primitive] = {
     # Nullary
     "x": _INPUT,
     # Unary

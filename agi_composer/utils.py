@@ -13,6 +13,8 @@ import copy
 import random
 from typing import Optional
 
+from typing import Optional, List
+
 import numpy as np
 
 from agi_composer.primitives import (
@@ -78,8 +80,8 @@ def random_expression(rng: random.Random, max_depth: int = 4,
 # ---------------------------------------------------------------------------
 
 def _collect_nodes(node: ExpressionNode,
-                   path: list[int] | None = None
-                   ) -> list[tuple[list[int], ExpressionNode]]:
+                   path: Optional[List[int]] = None
+                   ) -> List[tuple]:
     """Collect all (path, node) pairs in the tree."""
     if path is None:
         path = []
@@ -90,7 +92,7 @@ def _collect_nodes(node: ExpressionNode,
 
 
 def _get_node_at_path(root: ExpressionNode,
-                      path: list[int]) -> ExpressionNode:
+                      path: List[int]) -> ExpressionNode:
     """Navigate to a node at a given path."""
     node = root
     for idx in path:
@@ -98,7 +100,7 @@ def _get_node_at_path(root: ExpressionNode,
     return node
 
 
-def _replace_at_path(root: ExpressionNode, path: list[int],
+def _replace_at_path(root: ExpressionNode, path: List[int],
                      new_node: ExpressionNode) -> ExpressionNode:
     """Replace the node at path with new_node. Returns modified root."""
     if not path:

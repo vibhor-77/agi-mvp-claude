@@ -26,7 +26,7 @@ import copy
 import math
 import random
 from dataclasses import dataclass, field
-from typing import Callable, Optional
+from typing import Callable, List, Optional
 
 import numpy as np
 
@@ -55,11 +55,11 @@ class SearchCandidate:
 @dataclass
 class SearchHistory:
     """Records the search trajectory for analysis."""
-    iterations: list[int] = field(default_factory=list)
-    best_energies: list[float] = field(default_factory=list)
-    temperatures: list[float] = field(default_factory=list)
-    best_expressions: list[str] = field(default_factory=list)
-    acceptance_rates: list[float] = field(default_factory=list)
+    iterations: List[int] = field(default_factory=list)
+    best_energies: List[float] = field(default_factory=list)
+    temperatures: List[float] = field(default_factory=list)
+    best_expressions: List[str] = field(default_factory=list)
+    acceptance_rates: List[float] = field(default_factory=list)
 
 
 class AnnealingSearch:
@@ -115,7 +115,7 @@ class AnnealingSearch:
         self.np_rng = np.random.RandomState(seed)
 
     def _init_population(self, x: np.ndarray,
-                         y: np.ndarray) -> list[SearchCandidate]:
+                         y: np.ndarray) -> List[SearchCandidate]:
         """Create initial population of random expressions."""
         population = []
         for _ in range(self.population_size):
@@ -150,7 +150,7 @@ class AnnealingSearch:
         target_error: float = 1e-6,
         callback: Optional[Callable[[int, SearchCandidate, float], None]] = None,
         verbose: bool = False,
-    ) -> tuple[SearchCandidate, SearchHistory]:
+    ) -> "tuple":
         """
         Run the annealing search.
 
@@ -171,7 +171,7 @@ class AnnealingSearch:
 
         Returns
         -------
-        tuple[SearchCandidate, SearchHistory]
+        Tuple of (SearchCandidate, SearchHistory)
             The best candidate found and the search history.
         """
         # Initialize

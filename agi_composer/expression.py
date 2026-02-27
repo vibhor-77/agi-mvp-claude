@@ -26,7 +26,7 @@ from __future__ import annotations
 
 import copy
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import List, Optional
 
 import numpy as np
 from scipy.optimize import minimize as scipy_minimize
@@ -44,7 +44,7 @@ class ExpressionNode:
     """A single node in an expression tree."""
 
     primitive: Primitive
-    children: list[ExpressionNode] = field(default_factory=list)
+    children: List["ExpressionNode"] = field(default_factory=list)
     constant_value: Optional[float] = None  # Only for constant leaf nodes
 
     @property
@@ -99,7 +99,7 @@ class ExpressionNode:
         # Safety: clip to prevent downstream NaN/Inf cascades
         return np.clip(np.nan_to_num(result, nan=0.0, posinf=1e6, neginf=-1e6), -1e6, 1e6)
 
-    def get_constants(self) -> list[float]:
+    def get_constants(self) -> List[float]:
         """Collect all constant values in the tree (depth-first order)."""
         constants = []
         if self.is_constant:
@@ -108,7 +108,7 @@ class ExpressionNode:
             constants.extend(child.get_constants())
         return constants
 
-    def set_constants(self, values: list[float]) -> int:
+    def set_constants(self, values: List[float]) -> int:
         """Set constant values from a flat list. Returns number consumed."""
         consumed = 0
         if self.is_constant:

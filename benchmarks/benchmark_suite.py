@@ -15,7 +15,7 @@ and provide a clear measure of the system's compositional discovery ability.
 import time
 import numpy as np
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable, Tuple
 
 from agi_composer import Composer
 
@@ -26,7 +26,7 @@ class BenchmarkProblem:
     name: str
     true_expression: str  # Human-readable ground truth
     generate: Callable[[np.ndarray], np.ndarray]
-    x_range: tuple[float, float]
+    x_range: Tuple[float, float]
     n_points: int = 100
     difficulty: str = "easy"  # easy, medium, hard
 
